@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up & Login - JS Example</title>
+    <link rel="icon" href="newlogo.png">
+    <!-- Firebase SDKs -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js";
+        import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-auth.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyBeFNktX0s93_EOKNFd_1H_2LDF1txBz8Y",
+            authDomain: "placemate-8303e.firebaseapp.com",
+            projectId: "placemate-8303e",
+            storageBucket: "placemate-8303e.appspot.com",
+            messagingSenderId: "262848866511",
+            appId: "1:262848866511:web:54afaeafe8eaab52c26fba"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // Show Login Form
+        window.showLoginForm = function() {
+            document.getElementById('signupContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+        };
+
+        // Show Signup Form
+        window.showSignupForm = function() {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('signupContainer').style.display = 'block';
+        };
+
+        // Sign Up
+        window.validateSignupForm = function(event) {
+            event.preventDefault();
+            var email = document.getElementById('signupUsername').value;
+            var password = document.getElementById('signupPassword').value;
+            var confirmPassword = document.getElementById('confirmPassword').value;
+            var messageBox = document.getElementById('signupMessage');
+
+            if (password !== confirmPassword) {
+                messageBox.textContent = "Passwords do not match!";
+                messageBox.style.color = "red";
+                return false;
+            }
+
+            createUserWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    messageBox.textContent = "Account created successfully!";
+                    messageBox.style.color = "green";
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                })
+                .catch((error) => {
+                    messageBox.textContent = error.message;
+                    messageBox.style.color = "red";
+                });
+        };
+
+        // Login
+        window.validateLoginForm = function(event) {
+            event.preventDefault();
+            var email = document.getElementById('loginUsername').value;
+            var password = document.getElementById('loginPassword').value;
+            var messageBox = document.getElementById('loginMessage');
+
+            signInWithEmailAndPassword(auth, email, password)
+                .then((userCredential) => {
+                    messageBox.textContent = "Login successful!";
+                    messageBox.style.color = "green";
+                    localStorage.setItem('loggedIn', 'true');
+                    setTimeout(() => {
+                        window.location.href = 'index.html';
+                    }, 1000);
+                })
+                .catch((error) => {
+                    messageBox.textContent = "Invalid username or password.";
+                    messageBox.style.color = "red";
+                });
+        };
+
+        // Check if user is already logged in
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                localStorage.setItem('loggedIn', 'true');
+            } else {
+                localStorage.setItem('loggedIn', 'false');
+            }
+        });
+    </script>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1f0036, #6f00a8);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            animation: fadeIn 1.5s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+            width: 350px;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(50px);
+            animation: slideIn 1s ease-out forwards;
+        }
+        @keyframes slideIn {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .form-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .form-box h2 {
+            margin-bottom: 20px;
+            font-weight: bold;
+            animation: slideInText 1.5s ease-out;
+        }
+        @keyframes slideInText {
+            from { transform: translateX(-100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .form-box input {
+            padding: 12px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+        .form-box input:focus {
+            outline: none;
+            border: 2px solid #9b00ff;
+            transform: scale(1.05);
+        }
+        .form-box button {
+            padding: 12px;
+            background: #9b00ff;
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .form-box button:hover {
+            background: #c744ff;
+            transform: scale(1.1);
+        }
+        .form-box p {
+            text-align: center;
+            margin-top: 15px;
+        }
+        .form-box a {
+            color: #c744ff;
+            text-decoration: none;
+        }
+        .form-box a:hover {
+            text-decoration: underline;
+        }
+        .message {
+            color: #f00;
+            font-size: 0.9em;
+            margin-top: 10px;
+            animation: fadeMessage 2s ease-out;
+        }
+        @keyframes fadeMessage {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Sign Up Form -->
+    <div class="container" id="signupContainer">
+        <form id="signupForm" class="form-box" onsubmit="return validateSignupForm(event)">
+            <h2>Sign Up</h2>
+            <input type="email" id="signupUsername" placeholder="Email" required />
+            <input type="password" id="signupPassword" placeholder="Password" required />
+            <input type="password" id="confirmPassword" placeholder="Confirm Password" required />
+            <button type="submit">Create Account</button>
+            <p>Already have an account? <a href="javascript:void(0)" onclick="showLoginForm()">Login</a></p>
+            <div class="message" id="signupMessage"></div>
+        </form>
+    </div>
+
+    <!-- Login Form -->
+    <div class="container" id="loginContainer" style="display:none;">
+        <form id="loginForm" class="form-box" onsubmit="return validateLoginForm(event)">
+            <h2>Login</h2>
+            <input type="email" id="loginUsername" placeholder="Email" required />
+            <input type="password" id="loginPassword" placeholder="Password" required />
+            <button type="submit">Sign In</button>
+            <p>Don't have an account? <a href="javascript:void(0)" onclick="showSignupForm()">Sign Up</a></p>
+            <div class="message" id="loginMessage"></div>
+        </form>
+    </div>
+
+</body>
+</html>

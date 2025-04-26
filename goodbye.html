@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Thank You - PlaceMate</title>
+    <link rel="icon" href="newlogo.png">
+    <style>
+        body {
+            background: linear-gradient(135deg, #8e44ad, #3498db);
+            font-family: 'Roboto', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            overflow: hidden;
+        }
+        .logo {
+            width: 100px; /* Make logo smaller */
+            height: auto;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in;
+        }
+        h1 {
+            font-size: 2.8em;
+            margin-bottom: 20px;
+            white-space: nowrap;
+            overflow: hidden;
+            width: 0;
+            animation: typing 3s steps(30) forwards;
+        }
+        p {
+            font-size: 1.2em;
+            max-width: 600px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            opacity: 0;
+            animation: fadeIn 1s ease-in 2s forwards;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: white;
+            color: #2c3e50;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            animation: fadeIn 2s ease-in 3s forwards;
+        }
+        button:hover {
+            background-color: #f1f1f1;
+        }
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Logo inside body -->
+    <img src="newlogo.png" alt="PlaceMate Logo" class="logo">
+
+    <h1>Thank You for Visiting PlaceMate</h1>
+    <p>
+        We appreciate your trust in PlaceMate.<br>
+        Whether you're advancing your career or seeking new opportunities,<br>
+        we are here to support your journey to success.<br><br>
+        We look forward to seeing you again soon.
+    </p>
+
+    <button onclick="window.location.href='signup.html'">Login</button>
+
+</body>
+</html>
